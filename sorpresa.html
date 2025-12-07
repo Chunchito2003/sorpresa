@@ -1,110 +1,107 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Una sorpresa para ti</title>
-  <meta name="description" content="Tarjeta romántica con animaciones - Abre desde el celular" />
-  <style>
-    /* Reset sencillo */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-      display:flex;align-items:center;justify-content:center;
-      background: radial-gradient(circle at 10% 10%, #3b82f6 0%, transparent 25%),
-                  linear-gradient(180deg,#0f172a 0%, #0b1220 100%);
-      color:#fff;overflow:hidden;padding:20px
-    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Una sorpresa para ti</title>
+    <meta name="description" content="Tarjeta romántica con animaciones - Abre desde el celular" />
+    <style>
+        /* [Tus estilos CSS aquí, no necesitan cambios] */
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+          display:flex;align-items:center;justify-content:center;
+          background: radial-gradient(circle at 10% 10%, #3b82f6 0%, transparent 25%),
+                      linear-gradient(180deg,#0f172a 0%, #0b1220 100%);
+          color:#fff;overflow:hidden;padding:20px
+        }
 
-    /* Contenedor principal */
-    .card{
-      width:100%;max-width:720px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-      border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(2,6,23,0.6);backdrop-filter: blur(6px);
-      position:relative;overflow:hidden
-    }
+        /* Contenedor principal */
+        .card{
+          width:100%;max-width:720px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+          border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(2,6,23,0.6);backdrop-filter: blur(6px);
+          position:relative;overflow:hidden
+        }
 
-    h1{font-size:clamp(22px,5vw,40px);letter-spacing:0.6px;margin-bottom:12px}
-    p.lead{font-size:clamp(14px,3.5vw,18px);opacity:0.95}
+        h1{font-size:clamp(22px,5vw,40px);letter-spacing:0.6px;margin-bottom:12px}
+        p.lead{font-size:clamp(14px,3.5vw,18px);opacity:0.95}
 
-    /* Máquina de escribir */
-    .typewriter{display:inline-block;white-space:pre-wrap;max-width:100%}
-    .cursor{display:inline-block;width:2px;height:1em;background:#fff;margin-left:4px;vertical-align:bottom;animation:blink .9s steps(1) infinite}
-    @keyframes blink{50%{opacity:0}}
+        /* Máquina de escribir */
+        .typewriter{display:inline-block;white-space:pre-wrap;max-width:100%}
+        .cursor{display:inline-block;width:2px;height:1em;background:#fff;margin-left:4px;vertical-align:bottom;animation:blink .9s steps(1) infinite}
+        @keyframes blink{50%{opacity:0}}
 
-    /* Botones */
-    .controls{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
-    .btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:12px;color:#fff;font-weight:600;text-decoration:none}
-    .btn:active{transform:translateY(1px)}
+        /* Botones */
+        .controls{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+        .btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:12px;color:#fff;font-weight:600;text-decoration:none}
+        .btn:active{transform:translateY(1px)}
 
-    /* Corazones ascendentes */
-    .heart{position:absolute;left:50%;transform:translateX(-50%);bottom:-60px;pointer-events:none}
-    .heart svg{width:34px;height:34px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.35))}
+        /* Corazones ascendentes */
+        .heart{position:absolute;left:50%;transform:translateX(-50%);bottom:-60px;pointer-events:none}
+        .heart svg{width:34px;height:34px;filter:drop-shadow(0 6px 14px rgba(0,0,0,0.35))}
 
-    @keyframes floatUp{
-      0%{transform:translate(-50%,0) scale(0.8);opacity:1}
-      100%{transform:translate(-50%,-140vh) scale(1.1);opacity:0}
-    }
+        @keyframes floatUp{
+          0%{transform:translate(-50%,0) scale(0.8);opacity:1}
+          100%{transform:translate(-50%,-140vh) scale(1.1);opacity:0}
+        }
 
-    /* pequeño responsive */
-    .meta{opacity:0.9;font-size:13px;margin-top:12px}
+        /* pequeño responsive */
+        .meta{opacity:0.9;font-size:13px;margin-top:12px}
 
-    /* pantalla completa para el mensaje final */
-    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.5), rgba(2,6,23,0.9));backdrop-filter: blur(4px);z-index:40;opacity:0;pointer-events:none;transition:all .5s}
-    .overlay.show{opacity:1;pointer-events:auto}
-    .overlay .content{max-width:780px;padding:28px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));text-align:center}
-    .big-heart{font-size:80px;margin-bottom:8px}
+        /* pantalla completa para el mensaje final */
+        .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.5), rgba(2,6,23,0.9));backdrop-filter: blur(4px);z-index:40;opacity:0;pointer-events:none;transition:all .5s}
+        .overlay.show{opacity:1;pointer-events:auto}
+        .overlay .content{max-width:780px;padding:28px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));text-align:center}
+        .big-heart{font-size:80px;margin-bottom:8px}
 
-    /* adaptaciones móviles */
-    @media (max-width:420px){
-      .card{padding:18px;border-radius:14px}
-      .btn{padding:8px 12px;border-radius:10px}
-      .big-heart{font-size:54px}
-    }
-  </style>
+        /* adaptaciones móviles */
+        @media (max-width:420px){
+          .card{padding:18px;border-radius:14px}
+          .btn{padding:8px 12px;border-radius:10px}
+          .big-heart{font-size:54px}
+        }
+    </style>
 </head>
 <body>
-  <div class="card" role="main">
-    <h1>Para ti ❤️</h1>
-    <p class="lead">Toca el botón para empezar la sorpresa</p>
+    <div class="card" role="main">
+        <h1>Para ti ❤️</h1>
+        <p class="lead">Toca el botón para empezar la sorpresa</p>
 
-    <div style="margin-top:16px">
-      <div id="mensaje" class="typewriter"></div><span id="cursor" class="cursor" aria-hidden="true"></span>
+        <div style="margin-top:16px">
+            <div id="mensaje" class="typewriter"></div><span id="cursor" class="cursor" aria-hidden="true"></span>
+        </div>
+
+        <div class="controls">
+            <button id="startBtn" class="btn">Empezar sorpresa</button>
+            <a id="replay" class="btn" style="display:none">Repetir</a>
+        </div>
     </div>
 
-    <div class="controls">
-      <button id="startBtn" class="btn">Empezar sorpresa</button>
-      <button id="musicBtn" class="btn">Reproducir música</button>
-      <a id="replay" class="btn" style="display:none">Repetir</a>
+    <div id="hearts" aria-hidden="true"></div>
+
+    <div id="overlay" class="overlay" role="dialog" aria-modal="true">
+        <div class="content">
+            <div class="big-heart">💖</div>
+            <h2>Y por ultimo</h2>
+            <p style="margin-top:10px;opacity:0.95">Si te gusto, espero tu respuesta</p>
+            <div style="margin-top:18px"><button id="closeOverlay" class="btn">Cerrar</button></div>
+        </div>
     </div>
-  </div>
 
-  <!-- contenedor para corazones (se generan con JS) -->
-  <div id="hearts" aria-hidden="true"></div>
+<audio id="musica">
+    <source src="https://assets.mixkit.co/music/download/mixkit-just-relax-734.mp3" type="audio/mpeg">
+    <source src="https://assets.mixkit.co/music/download/mixkit-just-relax-734.ogg" type="audio/ogg">
+    Tu navegador no soporta el elemento de audio.
+</audio>
 
-  <!-- Overlay final -->
-  <div id="overlay" class="overlay" role="dialog" aria-modal="true">
-    <div class="content">
-      <div class="big-heart">💖</div>
-      <h2>Siempre conmigo</h2>
-      <p style="margin-top:10px;opacity:0.95">Gracias por existir. Quiero que sepas que cada día me hacés sonreír.</p>
-      <div style="margin-top:18px"><button id="closeOverlay" class="btn">Cerrar</button></div>
-    </div>
-  </div>
-
-  <audio id="musica" preload="none">
-    <source src="" type="audio/mpeg">
-    <!-- Dejar en blanco: el usuario puede reemplazarlo con su propia URL de MP3 si quiere -->
-  </audio>
-
-  <script>
+<script>
     // Texto que se mostrará (puedes editarlo aquí o reemplazarlo en el archivo)
     const texto = `Hola 🖐️\nNo sabia que hacer para empezar a hablar con vos, asi que decidi que hacer una mini-web era mejor idea que mandar un simple “hola”.\nSolo quería decirte que hay algo en vos que me encanta.🙃\nSi esto te sacó una sonrisa, misión cumplida.❤️`;
 
     const mensajeEl = document.getElementById('mensaje');
     const cursor = document.getElementById('cursor');
     const startBtn = document.getElementById('startBtn');
-    const musicBtn = document.getElementById('musicBtn');
     const musica = document.getElementById('musica');
     const hearts = document.getElementById('hearts');
     const overlay = document.getElementById('overlay');
@@ -121,7 +118,6 @@
           const ch = text.charAt(i);
           el.textContent += ch;
           i++;
-          // pequeño sonido opcional: omitimos por compatibilidad
           setTimeout(next, typingSpeed);
         } else {
           cb && cb();
@@ -159,6 +155,10 @@
 
     function startSequence(){
       startBtn.disabled = true;
+      
+      // *** La línea clave que intenta reproducir la música al interactuar ***
+      musica.play().catch(e=>{});
+
       // generar corazones en intervalo
       const heartInterval = setInterval(spawnHeart, 600);
       // escribir el texto
@@ -173,7 +173,6 @@
     }
 
     startBtn.addEventListener('click', ()=>{
-      // permitir que el usuario active musica primero si quiere
       startSequence();
     });
 
@@ -182,21 +181,15 @@
       mensajeEl.textContent = '';
       startBtn.disabled = false;
       replay.style.display = 'none';
+      // Limpia el audio
+      musica.pause();
+      musica.currentTime = 0; 
       // limpiar corazones existentes
       hearts.innerHTML = '';
     });
 
     closeOverlay.addEventListener('click', ()=>{
       overlay.classList.remove('show');
-    });
-
-    musicBtn.addEventListener('click', ()=>{
-      // Si querés, pegá la URL de un MP3 pública dentro del elemento <audio id="musica"> en el archivo
-      if(!musica.src){
-        alert('Si querés música, subí un MP3 y pega su URL en el archivo index.html dentro del elemento <audio>.\n\nO hacémelo saber y lo subo yo (necesitaría la URL o permiso).');
-        return;
-      }
-      musica.play().catch(()=>{alert('El navegador requiere interacción. Pulsa "Empezar sorpresa" primero y luego "Reproducir música".')});
     });
 
     // accesibilidad: permitir empezar con Enter si el botón está enfocado
@@ -207,6 +200,6 @@
 
     // para evitar scroll raro en móviles
     document.addEventListener('touchmove', function(e){ /* no hacer nada especial */ }, {passive:true});
-  </script>
+</script>
 </body>
 </html>
