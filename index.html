@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Una sorpresa para ti</title>
-    <meta name="description" content="Tarjeta romántica con animaciones - Abre desde el celular" />
+    <title>Documentación de Proyecto</title>
+    <meta name="description" content="Tarjeta" />
     <style>
-        /* [Tus estilos CSS aquí, no necesitan cambios] */
+        /* Estilos CSS (sin cambios) */
         *{box-sizing:border-box;margin:0;padding:0}
         html,body{height:100%}
         body{
@@ -61,19 +61,57 @@
           .btn{padding:8px 12px;border-radius:10px}
           .big-heart{font-size:54px}
         }
+
+        /* Estilo para los campos de entrada */
+        .card input[type="text"] {
+            width: 100%; padding: 10px; border-radius: 8px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(255,255,255,0.05); 
+            color: #fff;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
-    <div class="card" role="main">
+    <div id="welcome-screen" class="card" style="z-index: 50; max-width: 450px;">
+        <h1 style="text-align: center;">Cuestionario para el Proyecto</h1>
+        <p class="lead" style="text-align: center; margin-bottom: 20px;">Por favor, complete para continuar.</p>
+        
+        <div style="margin-bottom: 12px;">
+            <label for="nameInput" style="display: block; font-size: 14px; opacity: 0.8;">Nombre:</label>
+            <input type="text" id="nameInput" placeholder="Ej: Ignacio">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="yearInput" style="display: block; font-size: 14px; opacity: 0.8;">Apellido:</label>
+            <input type="text" id="yearInput" placeholder="Ej: Casteluche">
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label for="courseInput" style="display: block; font-size: 14px; opacity: 0.8;">Carrera:</label>
+            <input type="text" id="courseInput" placeholder="Ej: Desarrollo de Software">
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="yearInput" style="display: block; font-size: 14px; opacity: 0.8;">Curso:</label>
+            <input type="text" id="yearInput" placeholder="Ej: 3°">
+        </div>
+
+        <button id="nextBtn" class="btn" style="width: 100%; background: #3b82f6; border-color: #3b82f6; font-size: 16px;">
+            Siguiente
+        </button>
+    </div>
+
+    <div class="card" role="main" id="main-content" style="display:none;">
         <h1>Para ti ❤️</h1>
-        <p class="lead">Toca el botón para empezar la sorpresa</p>
+        <p class="lead">Toca el botón para empezar</p>
 
         <div style="margin-top:16px">
             <div id="mensaje" class="typewriter"></div><span id="cursor" class="cursor" aria-hidden="true"></span>
         </div>
 
         <div class="controls">
-            <button id="startBtn" class="btn">Empezar sorpresa</button>
+            <button id="startBtn" class="btn">Empezar</button>
             <a id="replay" class="btn" style="display:none">Repetir</a>
         </div>
     </div>
@@ -96,8 +134,18 @@
 </audio>
 
 <script>
-    // Texto que se mostrará (puedes editarlo aquí o reemplazarlo en el archivo)
-    const texto = `Hola 🖐️\nNo sabia que hacer para empezar a hablar con vos, asi que decidi que hacer una mini-web era mejor idea que mandar un simple “hola”.\nSolo quería decirte que hay algo en vos que me encanta.🙃\nSi esto te sacó una sonrisa, misión cumplida.❤️`;
+    // Variables para las nuevas pantallas
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const mainContent = document.getElementById('main-content');
+    const nextBtn = document.getElementById('nextBtn');
+    const nameInput = document.getElementById('nameInput');
+    const courseInput = document.getElementById('courseInput');
+    const yearInput = document.getElementById('yearInput');
+    
+    let targetName = ""; // Variable para guardar el nombre ingresado
+
+    // Texto de la sorpresa con el marcador de posición para el nombre
+    const textoTemplate = `Hola\nHace mucho que queria hablar con vos pero no sabia como, asi que decidi que hacer esto era mucho mejor idea que mandar un simple “hola”.\nSolo quería decirte que hay algo en vos que me encanta.🙃\nSi esto te sacó una sonrisa, misión cumplida.❤️`;
 
     const mensajeEl = document.getElementById('mensaje');
     const cursor = document.getElementById('cursor');
@@ -110,86 +158,112 @@
 
     let typingSpeed = 50; // ms por caracter
 
-    function typeText(text, el, cb){
-      el.textContent = '';
-      let i = 0;
-      function next(){
-        if(i < text.length){
-          const ch = text.charAt(i);
-          el.textContent += ch;
-          i++;
-          setTimeout(next, typingSpeed);
-        } else {
-          cb && cb();
+    // Función principal para la transición
+    nextBtn.addEventListener('click', ()=>{
+        const name = nameInput.value.trim();
+        const course = courseInput.value.trim();
+        const year = yearInput.value.trim();
+
+        if (name.length < 2 || course.length < 2 || year.length < 4) {
+            alert("¡Ups! Parece que te faltan algunos datos del 'proyecto'. Por favor, completa todos los campos.");
+            return;
         }
-      }
-      next();
+
+        // Guardar solo el nombre para la personalización del mensaje
+        targetName = name; 
+        
+        // Ocultar la pantalla de bienvenida
+        welcomeScreen.style.display = 'none';
+        
+        // Mostrar la pantalla principal de la sorpresa
+        mainContent.style.display = 'block';
+    });
+
+
+    // *** Funciones de animación ***
+
+    function typeText(text, el, cb){
+        el.textContent = '';
+        let i = 0;
+        function next(){
+            if(i < text.length){
+                const ch = text.charAt(i);
+                el.textContent += ch;
+                i++;
+                setTimeout(next, typingSpeed);
+            } else {
+                cb && cb();
+            }
+        }
+        next();
     }
 
     function spawnHeart(){
-      const div = document.createElement('div');
-      div.className = 'heart';
-      const size = 18 + Math.random()*36; // px
-      const left = Math.random()*100; // porcentaje
-      div.style.left = left + '%';
+        const div = document.createElement('div');
+        div.className = 'heart';
+        const size = 18 + Math.random()*36; // px
+        const left = Math.random()*100; // porcentaje
+        div.style.left = left + '%';
 
-      // corazón SVG con color aleatorio suave
-      const colors = ['#ff6b6b','#ff8fab','#ffb4c1','#ff758f','#ff4d6d'];
-      const color = colors[Math.floor(Math.random()*colors.length)];
-      div.innerHTML = `<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="${color}" d="M23.6 0c-2.9 0-5.4 1.6-6.6 4-1.2-2.4-3.7-4-6.6-4C2.8 0 0 3 0 6.6 0 14.1 16 23.6 16 23.6s16-9.5 16-17C32 3 29.2 0 23.6 0z"/></svg>`;
-      div.style.width = size + 'px';
-      div.style.height = size + 'px';
-      div.style.opacity = Math.random() * 0.6 + 0.4;
-      div.style.bottom = '-60px';
-      div.style.position = 'absolute';
-      div.style.pointerEvents = 'none';
-      div.style.transform = 'translateX(-50%)';
-      div.style.animation = `floatUp ${6 + Math.random()*5}s linear forwards`;
-      hearts.appendChild(div);
+        // corazón SVG con color aleatorio suave
+        const colors = ['#ff6b6b','#ff8fab','#ffb4c1','#ff758f','#ff4d6d'];
+        const color = colors[Math.floor(Math.random()*colors.length)];
+        div.innerHTML = `<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="${color}" d="M23.6 0c-2.9 0-5.4 1.6-6.6 4-1.2-2.4-3.7-4-6.6-4C2.8 0 0 3 0 6.6 0 14.1 16 23.6 16 23.6s16-9.5 16-17C32 3 29.2 0 23.6 0z"/></svg>`;
+        div.style.width = size + 'px';
+        div.style.height = size + 'px';
+        div.style.opacity = Math.random() * 0.6 + 0.4;
+        div.style.bottom = '-60px';
+        div.style.position = 'absolute';
+        div.style.pointerEvents = 'none';
+        div.style.transform = 'translateX(-50%)';
+        div.style.animation = `floatUp ${6 + Math.random()*5}s linear forwards`;
+        hearts.appendChild(div);
 
-      // limpiar después
-      setTimeout(()=>{
-        if(div.parentNode) div.parentNode.removeChild(div);
-      }, 12000);
+        // limpiar después
+        setTimeout(()=>{
+            if(div.parentNode) div.parentNode.removeChild(div);
+        }, 12000);
     }
 
+    // *** Función Start Sequence MODIFICADA para incluir el nombre ***
     function startSequence(){
-      startBtn.disabled = true;
-      
-      // *** La línea clave que intenta reproducir la música al interactuar ***
-      musica.play().catch(e=>{});
+        startBtn.disabled = true;
+        
+        // 1. Reemplaza el marcador de posición con el nombre
+        const finalTexto = textoTemplate.replace("[NOMBRE]", targetName);
+        
+        // 2. Intenta reproducir la música
+        musica.play().catch(e=>{});
 
-      // generar corazones en intervalo
-      const heartInterval = setInterval(spawnHeart, 600);
-      // escribir el texto
-      typeText(texto, mensajeEl, ()=>{
-        // mostrar overlay después de un ratito
-        setTimeout(()=>{
-          overlay.classList.add('show');
-          clearInterval(heartInterval);
-          replay.style.display = 'inline-block';
-        }, 900);
-      });
+        // 3. Inicia las animaciones
+        const heartInterval = setInterval(spawnHeart, 600);
+        // 4. Escribe el texto personalizado
+        typeText(finalTexto, mensajeEl, ()=>{
+            // mostrar overlay después de un ratito
+            setTimeout(()=>{
+                overlay.classList.add('show');
+                clearInterval(heartInterval);
+                replay.style.display = 'inline-block';
+            }, 900);
+        });
     }
 
     startBtn.addEventListener('click', ()=>{
-      startSequence();
+        startSequence();
     });
 
     replay.addEventListener('click', ()=>{
-      overlay.classList.remove('show');
-      mensajeEl.textContent = '';
-      startBtn.disabled = false;
-      replay.style.display = 'none';
-      // Limpia el audio
-      musica.pause();
-      musica.currentTime = 0; 
-      // limpiar corazones existentes
-      hearts.innerHTML = '';
+        overlay.classList.remove('show');
+        mensajeEl.textContent = '';
+        startBtn.disabled = false;
+        replay.style.display = 'none';
+        musica.pause();
+        musica.currentTime = 0; 
+        hearts.innerHTML = '';
     });
 
     closeOverlay.addEventListener('click', ()=>{
-      overlay.classList.remove('show');
+        overlay.classList.remove('show');
     });
 
     // accesibilidad: permitir empezar con Enter si el botón está enfocado
